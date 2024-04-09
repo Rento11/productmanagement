@@ -20,7 +20,7 @@ public class Product {
     @Size(max=100)
     private String title;
     @NotEmpty
-    @Pattern(regexp = "[A-Za-z0-9]*")
+    @Pattern(regexp = "[a-zA-Z0-9\\s]*")
     private String designation;
     @NotNull
     @Min(0)

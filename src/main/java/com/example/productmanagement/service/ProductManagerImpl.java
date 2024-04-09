@@ -3,6 +3,8 @@ package com.example.productmanagement.service;
 import com.example.productmanagement.dao.entities.Product;
 import com.example.productmanagement.dao.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,36 +16,84 @@ public class ProductManagerImpl implements ProductManager{
 
     @Override
     public Product addProduct(Product product) {
-        return null;
+        try{
+            return productRepository.save(product);
+        }catch(Exception exception){
+            System.out.println(exception.getMessage());
+            return null;
+        }
     }
 
     @Override
     public boolean deleteProduct(Product product) {
-        return false;
+        try{
+            productRepository.delete(product);
+            return true;
+        }catch(Exception exception){
+            System.out.println(exception.getMessage());
+            return false;
+        }
     }
 
     @Override
     public boolean deleteProductById(Integer id) {
-        return false;
+        try{
+            productRepository.delete(productRepository.findById(id).get());
+            return true;
+        }catch(Exception exception){
+            System.out.println(exception.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public boolean updateProduct(Integer id) {
-        return false;
+    public boolean updateProduct(Product product) {
+        try{
+            productRepository.save(product);
+            return true;
+        }catch(Exception exception){
+            System.out.println(exception.getMessage());
+            return false;
+        }
     }
 
     @Override
     public Product findProduct(Product product) {
-        return null;
+        try{
+            return productRepository.findById(product.getId()).get();
+        }catch(Exception exception){
+            System.out.println(exception.getMessage());
+            return null;
+        }
     }
 
     @Override
     public Product findProductById(Integer id) {
-        return null;
+        try{
+            return productRepository.findById(id).get();
+        }catch(Exception exception){
+            System.out.println(exception.getMessage());
+            return null;
+        }
     }
 
     @Override
-    public List<Product> getAllProducts(Integer id) {
-        return null;
+    public List<Product> getAllProducts() {
+        try{
+            return productRepository.findAll();
+        }catch(Exception exception) {
+            System.out.println(exception.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Page<Product> getAllProducts(int page, int taille) {
+        return productRepository.findAll(PageRequest.of(page,taille));
+    }
+
+    @Override
+    public Page<Product> searchProducts(String keyword, int page, int taille) {
+        return productRepository.findByDesignationContains(keyword,PageRequest.of(page, taille));
     }
 }
