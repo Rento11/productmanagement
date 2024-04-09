@@ -94,6 +94,6 @@ public class ProductManagerImpl implements ProductManager{
 
     @Override
     public Page<Product> searchProducts(String keyword, int page, int taille) {
-        return productRepository.findByDesignationContains(keyword,PageRequest.of(page, taille));
+        return productRepository.findByDesignationContainsIgnoreCase(keyword,PageRequest.of(page, taille));
     }
 }

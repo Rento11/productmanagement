@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Transactional
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    Page<Product> findByDesignationContains(String keyword, Pageable pageable);
+    Page<Product> findByDesignationContainsIgnoreCase(String keyword, Pageable pageable);
 }
