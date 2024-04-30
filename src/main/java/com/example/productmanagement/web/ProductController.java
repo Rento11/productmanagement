@@ -1,5 +1,4 @@
 package com.example.productmanagement.web;
-
 import com.example.productmanagement.dao.entities.Product;
 import com.example.productmanagement.service.ProductManager;
 import jakarta.validation.Valid;
@@ -11,13 +10,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
 @Controller
 public class ProductController {
     @Autowired
     ProductManager productManager;
 
+    @GetMapping("/")
+    public String getProducts0(Model model, @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "taille", defaultValue = "1") int taille, @RequestParam(name = "search", defaultValue = "") String keyword) {
+        return "redirect:/productsList";
+    }
     @GetMapping("/productsList")
     public String getProducts(Model model, @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "taille", defaultValue = "1") int taille, @RequestParam(name = "search", defaultValue = "") String keyword) {
         Page<Product> products = productManager.searchProducts(keyword,page, taille);
@@ -48,7 +49,7 @@ public class ProductController {
     }
 
     @GetMapping("/deleteProduct")
-    public String deleteProduitAction(@RequestParam(name = "id") Integer id, Integer page, String search) {
+    public String deleteProductAction(@RequestParam(name = "id") Integer id, Integer page, String search) {
         if (productManager.deleteProductById(id)) {
             return "redirect:/productsList";
         } else {
